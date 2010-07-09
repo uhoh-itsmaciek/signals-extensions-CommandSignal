@@ -215,5 +215,15 @@ package org.robotlegs.base
 			
 			assertTrue(prop.wasExecuted);
 		}
+
+
+        [Test]
+        public function mapping_signal_reuses_injector_mapping():void
+        {
+            injector.mapSingleton(TestCommandPropertySignal);
+            var signal:ISignal = signalCommandMap.mapSignalClass(TestCommandPropertySignal, TestNoPropertiesCommand);
+            assertSame(injector.getInstance(TestCommandPropertySignal), signal);
+        }
+
     }
 }
