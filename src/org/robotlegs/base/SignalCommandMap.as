@@ -58,10 +58,15 @@ package org.robotlegs.base
             var signal:ISignal;
             if(injector.hasMapping(IInjector))
                 injectorForSignalInstance = injector.getInstance(IInjector);
-            signal = injectorForSignalInstance.instantiate( signalClass );
-            injectorForSignalInstance.mapValue( signalClass, signal );
-            signalClassMap[signalClass] = signal;
-            return signal;
+            if (injectorForSignalInstance.hasMapping(signalClass))
+                signal = injectorForSignalInstance.getInstance(signalClass);
+            else
+            {
+                signal = injectorForSignalInstance.instantiate( signalClass );
+                injectorForSignalInstance.mapValue( signalClass, signal );
+                signalClassMap[signalClass] = signal;
+            }
+            return signal
         }
 
         public function hasSignalCommand(signal:ISignal, commandClass:Class):Boolean
