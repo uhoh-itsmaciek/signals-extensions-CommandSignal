@@ -49,7 +49,10 @@ package org.robotlegs.base
 
         private function getSignalClassInstance(signalClass:Class):ISignal
         {
-            return ISignal(signalClassMap[signalClass]) || createSignalClassInstance(signalClass);
+            if (injector.hasMapping(signalClass))
+                return injector.getInstance(signalClass)
+            else
+                return ISignal(signalClassMap[signalClass]) || createSignalClassInstance(signalClass);
         }
 
         private function createSignalClassInstance(signalClass:Class):ISignal
